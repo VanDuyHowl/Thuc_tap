@@ -38,7 +38,6 @@ export const reportFaculty = async (term_code, faculty_code) => {
 };
 
 export const reportTeacher = async (term_code, teacher_id) => {
-  console.log(`🔍 [REPORT TEACHER MODEL] Querying for term_code: ${term_code}, teacher_id: ${teacher_id}`);
   
   const query = `
     WITH group_scores AS (
@@ -96,10 +95,9 @@ export const reportTeacher = async (term_code, teacher_id) => {
   
   try {
     const { rows } = await pool.query(query, [term_code, teacher_id]);
-    console.log(`✅ [REPORT TEACHER MODEL] Query returned ${rows.length} rows`);
     return rows;
   } catch (error) {
-    console.error(`❌ [REPORT TEACHER MODEL] Database error:`, error);
+    console.error(`[REPORT TEACHER MODEL] Database error:`, error);
     throw error;
   }
 };

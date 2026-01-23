@@ -174,7 +174,7 @@ const ClassStudentList = ({ classCode, term, onListLoaded, setClassCode, onStude
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `bao_cao_lop_${classCode}.xlsx`;
+      a.download = `Bao_cao_lop.xlsx`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);

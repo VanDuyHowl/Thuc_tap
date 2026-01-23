@@ -129,10 +129,8 @@ export const exportTemplateExcel = async (req, res) => {
 //GV
 export const previewTeacherExcel = async (req, res) => {
     const { term_code, teacher_id } = req.query;
-    console.log("📊 [TEACHER EXCEL PREVIEW] term_code:", term_code, "teacher_id:", teacher_id);
 
     if (!term_code || !teacher_id) {
-        console.error("❌ [TEACHER EXCEL PREVIEW] Thiếu tham số:", { term_code, teacher_id });
         return res.status(400).json({ 
             error: "Thiếu dữ liệu đầu vào",
             message: "Vui lòng cung cấp đầy đủ term_code và teacher_id" 
@@ -141,10 +139,9 @@ export const previewTeacherExcel = async (req, res) => {
 
     try {
         const data = await reportTeacher(term_code, teacher_id);
-        console.log(`✅ [TEACHER EXCEL PREVIEW] Lấy được ${data.length} sinh viên`);
 
         if (data.length === 0) {
-            console.warn("⚠️ [TEACHER EXCEL PREVIEW] Không có dữ liệu");
+            console.warn("[TEACHER EXCEL PREVIEW] Không có dữ liệu");
             return res.status(404).json({ 
                 error: "Không có dữ liệu",
                 message: "Chưa có dữ liệu đánh giá cho học kỳ này hoặc giáo viên chưa có lớp được phân công" 
@@ -153,7 +150,7 @@ export const previewTeacherExcel = async (req, res) => {
 
         // Kiểm tra dữ liệu có đầy đủ không
         if (!data[0].semester || !data[0].year || !data[0].class_name || !data[0].faculty_name) {
-            console.error("❌ [TEACHER EXCEL PREVIEW] Dữ liệu không đầy đủ:", data[0]);
+            console.error("[TEACHER EXCEL PREVIEW] Dữ liệu không đầy đủ:", data[0]);
             return res.status(500).json({ 
                 error: "Dữ liệu không đầy đủ",
                 message: "Dữ liệu học kỳ hoặc thông tin lớp không đầy đủ. Vui lòng kiểm tra cấu hình hệ thống." 
@@ -181,7 +178,7 @@ export const previewTeacherExcel = async (req, res) => {
             }))
         });
     } catch (error) {
-        console.error("❌ [TEACHER EXCEL PREVIEW] Lỗi:", {
+        console.error("[TEACHER EXCEL PREVIEW] Lỗi:", {
             message: error.message,
             stack: error.stack,
             term_code,
@@ -295,7 +292,7 @@ export const exportTeacherExcel = async (req, res) => {
         );
         res.setHeader(
             "Content-Disposition",
-            `attachment; filename=Bao_cao_lop_${data[0].class_code}.xlsx`
+            `attachment; filename=Bao_cao_lop.xlsx`
         );
 
         await workbook.xlsx.write(res);
